@@ -49,6 +49,7 @@ public class ProductRestController {
 	
 	@PatchMapping("/{productId}")
 	public ResponseEntity<ProductFeedbackDTO> updateProduct(@PathVariable Long productId, @RequestBody ProductFormDTO productToUpdate) throws Exception {
+		productToUpdate.setId(productId);
 		ProductFeedbackDTO updatedProductFeedbackDto = this.productService.updateProduct(productToUpdate);
 
 		return new ResponseEntity<>(updatedProductFeedbackDto, HttpStatus.OK);
