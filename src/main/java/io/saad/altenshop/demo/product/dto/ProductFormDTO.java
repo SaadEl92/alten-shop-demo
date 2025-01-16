@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import io.saad.altenshop.demo.product.InventoryStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class ProductFormDTO {
 	private Long id;
     
     private String code;
+    @NotNull
     private String name;
     private String description;
     private String image;

@@ -1,5 +1,7 @@
 package io.saad.altenshop.demo.product.dto.mapper;
 
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
@@ -15,8 +17,10 @@ public class ProductDTOMapper implements Function<Product, ProductDTO> {
 		return ProductDTO.builder()
 				.id(product.getId())
 				.code(product.getCode())
+				.name(product.getName())
 				.description(product.getDescription())
 				.image(product.getImage())
+				.price(product.getPrice())
 				.category(product.getCategory())
 				.quantity(product.getQuantity())
 				.internalReference(product.getInternalReference())

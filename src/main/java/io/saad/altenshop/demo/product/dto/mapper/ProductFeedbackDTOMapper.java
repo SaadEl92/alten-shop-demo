@@ -15,6 +15,7 @@ public class ProductFeedbackDTOMapper implements Function<Product, ProductFeedba
 		return ProductFeedbackDTO.builder()
 				.id(product.getId())
 				.code(product.getCode())
+				.name(product.getName())
 				.description(product.getDescription())
 				.image(product.getImage())
 				.build();
