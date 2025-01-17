@@ -10,7 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.saad.altenshop.demo.dto.UserDTO;
+import io.saad.altenshop.demo.entity.Cart;
 import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.UserRepository;
 
 @Service
@@ -18,6 +20,7 @@ import io.saad.altenshop.demo.repository.UserRepository;
 public class UserService {
 	
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
     private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<UserDTO> saveUser(UserDTO dto) {
@@ -25,6 +28,10 @@ public class UserService {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         BeanUtils.copyProperties(dto, entity);
         User savedUser = userRepository.save(entity);
+        
+    	Cart userShoppingCart = Cart.builder().user(savedUser).build();
+    	this.cartRepository.save(userShoppingCart);
+    	
         dto.setPassword("******");
         dto.setUserId(savedUser.getUserId());
         return ResponseEntity.ok(dto);
