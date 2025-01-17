@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.product;
+package io.saad.altenshop.demo.entity;
 
 import java.math.BigDecimal;
 import java.time.Instant;

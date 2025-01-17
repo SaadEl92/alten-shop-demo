@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.security.service;
+package io.saad.altenshop.demo.service;
 
 import lombok.AllArgsConstructor;
 
@@ -9,9 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.saad.altenshop.demo.security.dao.UserRepository;
-import io.saad.altenshop.demo.security.dto.UserDTO;
-import io.saad.altenshop.demo.security.entity.User;
+import io.saad.altenshop.demo.dto.UserDTO;
+import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.repository.UserRepository;
 
 @Service
 @AllArgsConstructor

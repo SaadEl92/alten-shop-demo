@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.saad.altenshop.demo.security.dto.UserDTO;
+import io.saad.altenshop.demo.dto.UserDTO;
 import io.saad.altenshop.demo.security.exception.InvalidPayloadException;
 import io.saad.altenshop.demo.security.exception.UserIdAlreadyExistException;
-import io.saad.altenshop.demo.security.service.UserService;
+import io.saad.altenshop.demo.service.UserService;
 
 @RestController
 @RequestMapping("/api/v0/auth")

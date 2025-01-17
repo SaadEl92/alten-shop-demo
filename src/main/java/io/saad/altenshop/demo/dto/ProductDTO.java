@@ -1,26 +1,22 @@
-package io.saad.altenshop.demo.product.dto;
+package io.saad.altenshop.demo.dto;
 
 import java.math.BigDecimal;
 
-import io.saad.altenshop.demo.product.InventoryStatus;
+import io.saad.altenshop.demo.entity.InventoryStatus;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class ProductFormDTO {
-	
+public class ProductDTO {
 	private Long id;
     
     private String code;
-    @NotNull
     private String name;
     private String description;
     private String image;
@@ -34,4 +30,7 @@ public class ProductFormDTO {
     private InventoryStatus inventoryStatus;
     
     private Integer rating;
+    
+    private Long createdAt;
+    private Long updatedAt;
 }

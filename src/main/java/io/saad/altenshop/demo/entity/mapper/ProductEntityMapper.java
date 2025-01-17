@@ -1,13 +1,14 @@
-package io.saad.altenshop.demo.product;
+package io.saad.altenshop.demo.entity.mapper;
 
 import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
-import io.saad.altenshop.demo.product.dto.ProductFormDTO;
+import io.saad.altenshop.demo.dto.ProductFormDTO;
+import io.saad.altenshop.demo.entity.Product;
 
 @Service
-public class ProductMapper implements Function<ProductFormDTO, Product> {
+public class ProductEntityMapper implements Function<ProductFormDTO, Product> {
 
 	@Override
 	public Product apply(ProductFormDTO productFormDto) {

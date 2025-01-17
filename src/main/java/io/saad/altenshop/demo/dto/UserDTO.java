@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.security.dto;
+package io.saad.altenshop.demo.dto;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;

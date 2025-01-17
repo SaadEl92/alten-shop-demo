@@ -1,12 +1,12 @@
-package io.saad.altenshop.demo.security;
+package io.saad.altenshop.demo.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import io.saad.altenshop.demo.security.dao.UserRepository;
-import io.saad.altenshop.demo.security.entity.User;
+import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Optional;

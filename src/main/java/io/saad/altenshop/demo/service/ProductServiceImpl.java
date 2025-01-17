@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.product;
+package io.saad.altenshop.demo.service;
 
 import java.util.Optional;
 
@@ -7,11 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.saad.altenshop.demo.product.dto.ProductDTO;
-import io.saad.altenshop.demo.product.dto.ProductFeedbackDTO;
-import io.saad.altenshop.demo.product.dto.ProductFormDTO;
-import io.saad.altenshop.demo.product.dto.mapper.ProductDTOMapper;
-import io.saad.altenshop.demo.product.dto.mapper.ProductFeedbackDTOMapper;
+import io.saad.altenshop.demo.dto.ProductDTO;
+import io.saad.altenshop.demo.dto.ProductFeedbackDTO;
+import io.saad.altenshop.demo.dto.ProductFormDTO;
+import io.saad.altenshop.demo.dto.mapper.ProductDTOMapper;
+import io.saad.altenshop.demo.dto.mapper.ProductFeedbackDTOMapper;
+import io.saad.altenshop.demo.entity.Product;
+import io.saad.altenshop.demo.entity.mapper.ProductEntityMapper;
+import io.saad.altenshop.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -21,7 +24,7 @@ public class ProductServiceImpl implements IProductService {
 
 	private final ProductRepository productRepository;
 	
-	private final ProductMapper productMapper;
+	private final ProductEntityMapper productEntityMapper;
 	private final ProductDTOMapper productDTOMapper;
 	private final ProductFeedbackDTOMapper productFeedbackDTOMapper;
 	
@@ -42,7 +45,7 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public ProductFeedbackDTO createProduct(ProductFormDTO productFormDTO) throws Exception {
 		return Optional.of(productFormDTO)
-				.map(this.productMapper)
+				.map(this.productEntityMapper)
 				.map(this.productRepository::save)
 				.map(this.productFeedbackDTOMapper)
 				.orElseThrow(() -> new Exception("Problem: product not created in database"));
@@ -54,7 +57,7 @@ public class ProductServiceImpl implements IProductService {
 			throw new Exception("Problem during Product Update: product does not exist");
 		
 		return Optional.of(productFormDTO)
-				.map(this.productMapper)
+				.map(this.productEntityMapper)
 				.map(this.productRepository::save)
 				.map(this.productFeedbackDTOMapper)
 				.orElseThrow(() -> new Exception("Problem: product not updated in database"));

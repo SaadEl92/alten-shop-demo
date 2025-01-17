@@ -1,11 +1,11 @@
-package io.saad.altenshop.demo.product;
+package io.saad.altenshop.demo.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import io.saad.altenshop.demo.product.dto.ProductDTO;
-import io.saad.altenshop.demo.product.dto.ProductFeedbackDTO;
-import io.saad.altenshop.demo.product.dto.ProductFormDTO;
+import io.saad.altenshop.demo.dto.ProductDTO;
+import io.saad.altenshop.demo.dto.ProductFeedbackDTO;
+import io.saad.altenshop.demo.dto.ProductFormDTO;
 
 public interface IProductService {
 

@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.security;
+package io.saad.altenshop.demo.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

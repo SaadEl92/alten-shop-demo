@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.product.dto;
+package io.saad.altenshop.demo.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,11 +1,11 @@
-package io.saad.altenshop.demo.product.dto.mapper;
+package io.saad.altenshop.demo.dto.mapper;
 
 import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
-import io.saad.altenshop.demo.product.Product;
-import io.saad.altenshop.demo.product.dto.ProductFeedbackDTO;
+import io.saad.altenshop.demo.dto.ProductFeedbackDTO;
+import io.saad.altenshop.demo.entity.Product;
 
 @Service
 public class ProductFeedbackDTOMapper implements Function<Product, ProductFeedbackDTO> {

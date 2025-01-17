@@ -1,11 +1,12 @@
-package io.saad.altenshop.demo.product;
+package io.saad.altenshop.demo.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.saad.altenshop.demo.product.dto.ProductDTO;
-import io.saad.altenshop.demo.product.dto.ProductFeedbackDTO;
-import io.saad.altenshop.demo.product.dto.ProductFormDTO;
+import io.saad.altenshop.demo.dto.ProductDTO;
+import io.saad.altenshop.demo.dto.ProductFeedbackDTO;
+import io.saad.altenshop.demo.dto.ProductFormDTO;
+import io.saad.altenshop.demo.service.IProductService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
