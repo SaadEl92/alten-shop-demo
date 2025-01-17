@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -41,6 +42,7 @@ public class ProductRestController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("authentication.name == 'admin@admin.com'")
 	public ResponseEntity<ProductFeedbackDTO> createProduct(@RequestBody ProductFormDTO productToCreate) throws Exception {
 		ProductFeedbackDTO createdProductFeedbackDto = this.productService.createProduct(productToCreate);
 
@@ -48,6 +50,7 @@ public class ProductRestController {
 	}
 	
 	@PatchMapping("/{productId}")
+	@PreAuthorize("authentication.name == 'admin@admin.com'")
 	public ResponseEntity<ProductFeedbackDTO> updateProduct(@PathVariable Long productId, @RequestBody ProductFormDTO productToUpdate) throws Exception {
 		productToUpdate.setId(productId);
 		ProductFeedbackDTO updatedProductFeedbackDto = this.productService.updateProduct(productToUpdate);
@@ -56,6 +59,7 @@ public class ProductRestController {
 	}
 	
 	@DeleteMapping("/{productId}")
+	@PreAuthorize("authentication.name == 'admin@admin.com'")
 	public ResponseEntity<ProductFeedbackDTO> deleteProduct(@PathVariable Long productId) throws Exception {
 		ProductFeedbackDTO deletedProductFeedbackDto = this.productService.deleteProduct(productId);
 
