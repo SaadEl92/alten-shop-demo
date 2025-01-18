@@ -25,9 +25,9 @@ import lombok.RequiredArgsConstructor;
 public class CartServiceImpl implements ICartService {
 	
 	private final ProductRepository productRepository;
+	private final UserRepository userRepository;
 	private final CartRepository cartRepository;
 	private final CartItemRepository cartItemRepository;
-	private final UserRepository userRepository;
 	
 	private final CartItemDTOMapper cartItemDTOMapper;
 

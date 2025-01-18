@@ -76,8 +76,30 @@ public class Product implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL, 
 			mappedBy = "product", orphanRemoval = true)
 	private List<CartItem> cartItems;
-	
-	
+    
+	@OneToMany(cascade = CascadeType.ALL, 
+			mappedBy = "product", orphanRemoval = true)
+	private List<WishlistItem> wishlistItems;
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null || getClass() != obj.getClass()) return false;
+		Product other = (Product) obj;
+		return Objects.equals(cartItems, other.cartItems) && Objects.equals(category, other.category)
+				&& Objects.equals(code, other.code) && Objects.equals(createdAt, other.createdAt)
+				&& Objects.equals(description, other.description) && Objects.equals(id, other.id)
+				&& Objects.equals(image, other.image) && Objects.equals(internalReference, other.internalReference)
+				&& inventoryStatus == other.inventoryStatus && Objects.equals(name, other.name)
+				&& Objects.equals(price, other.price) && Objects.equals(quantity, other.quantity)
+				&& Objects.equals(rating, other.rating) && Objects.equals(shellId, other.shellId)
+				&& Objects.equals(updatedAt, other.updatedAt);
+	}
+
+	@Override
+	public int hashCode() {
+		return 2025;
+	}
 	
 	
 	//###############Utility Methodes (CartItem)########################################
@@ -100,24 +122,26 @@ public class Product implements Serializable{
 			iterator.remove();
 		}
     }
+    
+	
+	//###############Utility Methodes (WishlistItem)########################################
+    //##########################################################################################    
+    public void addWishlistItem(WishlistItem wishlistItem){
+    	this.wishlistItems.add(wishlistItem);
+    	wishlistItem.setProduct(this);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null || getClass() != obj.getClass()) return false;
-		Product other = (Product) obj;
-		return Objects.equals(cartItems, other.cartItems) && Objects.equals(category, other.category)
-				&& Objects.equals(code, other.code) && Objects.equals(createdAt, other.createdAt)
-				&& Objects.equals(description, other.description) && Objects.equals(id, other.id)
-				&& Objects.equals(image, other.image) && Objects.equals(internalReference, other.internalReference)
-				&& inventoryStatus == other.inventoryStatus && Objects.equals(name, other.name)
-				&& Objects.equals(price, other.price) && Objects.equals(quantity, other.quantity)
-				&& Objects.equals(rating, other.rating) && Objects.equals(shellId, other.shellId)
-				&& Objects.equals(updatedAt, other.updatedAt);
-	}
-
-	@Override
-	public int hashCode() {
-		return 2025;
-	}
+	public void removeWishlistItem(WishlistItem wishlistItem) {
+		wishlistItem.setProduct(null);
+    	this.wishlistItems.remove(wishlistItem);
+    }
+    
+    public void removeWishlistItems() {
+    	Iterator<WishlistItem> iterator = this.wishlistItems.iterator();
+    	while (iterator.hasNext()) {
+			WishlistItem wishlistItem = iterator.next();
+			wishlistItem.setProduct(null);
+			iterator.remove();
+		}
+    }
 }
