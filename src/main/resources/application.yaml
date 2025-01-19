@@ -1,0 +1,19 @@
+server:
+  port: 8085
+spring:
+  application:
+    name:
+      alten-shop-demo
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  docker:
+    compose:
+      lifecycle-management: start-only      
+jwt:
+  secret: 
+    jwt-secret
+  token:
+    lifespan: 3600000
