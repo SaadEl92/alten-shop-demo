@@ -30,7 +30,7 @@ public class AuthRestController {
     private UserDetailsService userDetailsService;
     private static final Logger LOG = LoggerFactory.getLogger(AuthRestController.class.getName());
 
-    @PostMapping("/login")
+    @PostMapping("/token")
     public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws BadCredentialsException {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword()));

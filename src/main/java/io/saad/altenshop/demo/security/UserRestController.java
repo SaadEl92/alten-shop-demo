@@ -22,7 +22,7 @@ public class UserRestController {
 
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/account")
     public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDto) {
         if (Objects.isNull(userDto)) {
             throw new InvalidPayloadException("Payload cannot be Null");

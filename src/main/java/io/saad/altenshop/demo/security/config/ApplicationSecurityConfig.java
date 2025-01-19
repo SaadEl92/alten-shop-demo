@@ -31,7 +31,9 @@ public class ApplicationSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
                 .authorizeHttpRequests(requests ->
-                        requests.requestMatchers("/api/v0/auth/**").permitAll()
+                        requests.requestMatchers("/v3/api-docs/**").permitAll()
+                				.requestMatchers("/swagger-ui/**").permitAll()
+                        		.requestMatchers("/api/v0/auth/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
