@@ -11,7 +11,7 @@ spring:
     show-sql: true
   docker:
     compose:
-      lifecycle-management: start-only      
+      lifecycle-management: start-and-stop      
 jwt:
   secret: 
     jwt-secret
