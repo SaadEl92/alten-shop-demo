@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.saad.altenshop.demo.dto.CartItemDTO;
-import io.saad.altenshop.demo.dto.mapper.CartItemDTOMapper;
+import io.saad.altenshop.demo.dto.mapper.CartItemMapper;
 import io.saad.altenshop.demo.entity.Cart;
 import io.saad.altenshop.demo.entity.CartItem;
 import io.saad.altenshop.demo.entity.Product;
@@ -29,7 +29,7 @@ public class CartServiceImpl implements ICartService {
 	private final CartRepository cartRepository;
 	private final CartItemRepository cartItemRepository;
 	
-	private final CartItemDTOMapper cartItemDTOMapper;
+	private final CartItemMapper cartItemMapper;
 
 	@Override
 	public List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal) throws Exception {
@@ -38,7 +38,7 @@ public class CartServiceImpl implements ICartService {
 		
 		Cart userCart = this.cartRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new Exception("can't find cart"));
-		return userCart.getCartItems().stream().map(this.cartItemDTOMapper).toList();
+		return userCart.getCartItems().stream().map(this.cartItemMapper::entityToCartItemDTO).toList();
 	}
 
 	@Override
@@ -50,13 +50,13 @@ public class CartServiceImpl implements ICartService {
 		Cart cartOfUser = this.cartRepository.findById(authenticatedUser.getUserId())
 									.orElseThrow(() -> new Exception("can't find cart"));
 									
-		Product choosenProduct = this.productRepository.findById(cartItemDTO.getProductId())
+		Product choosenProduct = this.productRepository.findById(cartItemDTO.productId())
 									.orElseThrow(() -> new Exception("can't find product"));
 		
 		CartItem cartItemToAdd = CartItem.builder()
 									.product(choosenProduct)
 									.cart(cartOfUser)
-									.quantity(cartItemDTO.getQuantity())
+									.quantity(cartItemDTO.quantity())
 									.build();
 		
 		cartOfUser.addCartItem(cartItemToAdd);
@@ -64,17 +64,17 @@ public class CartServiceImpl implements ICartService {
 								
 		
 		return Optional.of(this.cartItemRepository.save(cartItemToAdd))
-				.map(this.cartItemDTOMapper)
+				.map(this.cartItemMapper::entityToCartItemDTO)
 				.orElseThrow(() -> new Exception("error creating the cartItem in database"));
 	}
 
 	@Override
 	public CartItemDTO removeFromCart(Principal principal, Long cartItemId) throws Exception {
 		CartItemDTO cartItemToDeleteDTO = this.cartItemRepository.findById(cartItemId)
-				.map(this.cartItemDTOMapper)
+				.map(this.cartItemMapper::entityToCartItemDTO)
 				.orElseThrow(() -> new Exception("can't find cartItem"));
 		
-		this.cartItemRepository.deleteById(cartItemToDeleteDTO.getId());
+		this.cartItemRepository.deleteById(cartItemToDeleteDTO.id());
 		
 		return cartItemToDeleteDTO;
 	}
