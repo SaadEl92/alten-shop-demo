@@ -16,8 +16,10 @@ import io.saad.altenshop.demo.entity.Wishlist;
 import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.UserRepository;
 import io.saad.altenshop.demo.repository.WishlistRepository;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class UserService {
 	

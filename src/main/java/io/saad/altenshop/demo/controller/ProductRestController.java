@@ -4,9 +4,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.saad.altenshop.demo.dto.ProductDTO;
-import io.saad.altenshop.demo.dto.ProductFeedbackDTO;
+import io.saad.altenshop.demo.dto.ProductResponseDTO;
 import io.saad.altenshop.demo.dto.ProductFormDTO;
 import io.saad.altenshop.demo.service.IProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -44,27 +45,26 @@ public class ProductRestController {
 	
 	@PostMapping
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
-	public ResponseEntity<ProductFeedbackDTO> createProduct(@RequestBody ProductFormDTO productToCreate) throws Exception {
-		ProductFeedbackDTO createdProductFeedbackDto = this.productService.createProduct(productToCreate);
-
-		return new ResponseEntity<>(createdProductFeedbackDto, HttpStatus.CREATED);
+	public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody @Valid ProductFormDTO productToCreate) throws Exception {
+		ProductResponseDTO createdProductResponseDTO = this.productService.createProduct(productToCreate);
+		return new ResponseEntity<>(createdProductResponseDTO, HttpStatus.CREATED);
 	}
 	
 	@PatchMapping("/{productId}")
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
-	public ResponseEntity<ProductFeedbackDTO> updateProduct(@PathVariable Long productId, @RequestBody ProductFormDTO productToUpdate) throws Exception {
-		productToUpdate.setId(productId);
-		ProductFeedbackDTO updatedProductFeedbackDto = this.productService.updateProduct(productToUpdate);
-
-		return new ResponseEntity<>(updatedProductFeedbackDto, HttpStatus.OK);
+	public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductFormDTO productToUpdate) throws Exception {
+		/**
+		 * The path variable productId is not used but it's required in the API Contract, the id is retrieved from the DTO 
+		 */
+		ProductResponseDTO updatedProductResponseDTO = this.productService.updateProduct(productToUpdate);
+		return new ResponseEntity<>(updatedProductResponseDTO, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{productId}")
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
-	public ResponseEntity<ProductFeedbackDTO> deleteProduct(@PathVariable Long productId) throws Exception {
-		ProductFeedbackDTO deletedProductFeedbackDto = this.productService.deleteProduct(productId);
-
-		return new ResponseEntity<>(deletedProductFeedbackDto, HttpStatus.OK);
+	public ResponseEntity<ProductResponseDTO> deleteProduct(@PathVariable Long productId) throws Exception {
+		ProductResponseDTO deletedProductResponseDTO = this.productService.deleteProduct(productId);
+		return new ResponseEntity<>(deletedProductResponseDTO, HttpStatus.OK);
 	}
 	
 	
