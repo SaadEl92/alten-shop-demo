@@ -38,6 +38,7 @@ public class CartServiceImpl implements ICartService {
 		
 		Cart userCart = this.cartRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new Exception("can't find cart"));
+		
 		return userCart.getCartItems().stream().map(this.cartItemMapper::entityToCartItemDTO).toList();
 	}
 
