@@ -1,7 +1,5 @@
 package io.saad.altenshop.demo.service;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,54 +19,53 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements IProductService {
 
 	private final ProductRepository productRepository;
-	
 	private final ProductMapper productMapper;
 	
 	@Override
-	public Page<ProductDTO> getAllProducts(Pageable pageable) throws Exception {
-		Page<Product> productsPage = this.productRepository.findAll(pageable);
-		return productsPage.map(this.productMapper::entityToProductDTO);
+	public Page<ProductDTO> getAllProducts(Pageable pageable){
+		return this.productRepository.findAll(pageable)
+				.map(this.productMapper::entityToProductDTO);
 	}
 
 	@Override
-	public ProductDTO getProductById(Long productId) throws Exception {
+	public ProductDTO getProductById(Long productId){
 		return this.productRepository
 				.findById(productId)
 				.map(this.productMapper::entityToProductDTO)
-				.orElseThrow(() -> new Exception("product not found"));
+				.orElseThrow(() -> new RuntimeException("product not found"));
 	}
 
 	@Override
-	public ProductResponseDTO createProduct(ProductFormDTO productFormDTO) throws Exception {
-		return Optional.of(productFormDTO)
-				.map(this.productMapper::productFormDtoToEntity)
-				.map(this.productRepository::save)
-				.map(this.productMapper::entityToProductResponseDto)
-				.orElseThrow(() -> new Exception("Problem: product not created in database"));
-	}
-
-	@Override
-	public ProductResponseDTO updateProduct(ProductFormDTO productFormDTO) throws Exception {
-		if(!this.productRepository.existsById(productFormDTO.id()))
-			throw new Exception("Problem during Product Update: product does not exist");
+	public ProductResponseDTO createProduct(ProductFormDTO productFormDTO){
 		
-		return Optional.of(productFormDTO)
-				.map(this.productMapper::productFormDtoToEntity)
-				.map(this.productRepository::save)
-				.map(this.productMapper::entityToProductResponseDto)
-				.orElseThrow(() -> new Exception("Problem: product not updated in database"));
+		Product newProduct = this.productMapper.productFormDtoToEntity(productFormDTO);
+		
+		Product savedProduct = this.productRepository.save(newProduct);
+		
+		return this.productMapper.entityToProductResponseDto(savedProduct);
 	}
 
 	@Override
-	public ProductResponseDTO deleteProduct(Long productId) throws Exception {
+	public ProductResponseDTO updateProduct(ProductFormDTO productFormDTO){
+		
+		Product existingProduct = this.productRepository.findById(productFormDTO.id())
+									.orElseThrow(() -> 
+										new RuntimeException("Problem during Product Update: product does not exist")
+									);
+		
+		this.productMapper.productFormDtoToEntity(productFormDTO, existingProduct);
+		
+		Product updatedProduct = this.productRepository.save(existingProduct);
+		
+		return this.productMapper.entityToProductResponseDto(updatedProduct);
+	}
+
+	@Override
+	public ProductResponseDTO deleteProduct(Long productId){
 		Product productToDelete = this.productRepository.findById(productId)
-				.orElseThrow(() -> new Exception("Problem during Product Delete: product does not exist"));
+				.orElseThrow(() -> new RuntimeException("Problem during Product Delete: product does not exist"));
 		
-		ProductResponseDTO productResponseDTO = Optional.of(productToDelete)
-													.map(this.productMapper::entityToProductResponseDto)
-													.orElseThrow(() -> new Exception("productFeedbackDTOMapper Error"));
-		
-		
+		ProductResponseDTO productResponseDTO = this.productMapper.entityToProductResponseDto(productToDelete);
 		this.productRepository.delete(productToDelete);
 		return productResponseDTO;
 	}

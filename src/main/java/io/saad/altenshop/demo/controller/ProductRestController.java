@@ -32,27 +32,27 @@ public class ProductRestController {
 	private final IProductService productService;
 	
 	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> getAllProducts(Pageable pageable) throws Exception {
+	public ResponseEntity<Page<ProductDTO>> getAllProducts(Pageable pageable){
 		Page<ProductDTO> productsDtoPage = this.productService.getAllProducts(pageable);
 		return new ResponseEntity<>(productsDtoPage, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{productId}")
-	public ResponseEntity<ProductDTO> getProductById(@PathVariable Long productId) throws Exception {
+	public ResponseEntity<ProductDTO> getProductById(@PathVariable Long productId){
 		ProductDTO productDto = this.productService.getProductById(productId);
 		return new ResponseEntity<>(productDto, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
-	public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody @Valid ProductFormDTO productToCreate) throws Exception {
+	public ResponseEntity<ProductResponseDTO> createProduct(@RequestBody @Valid ProductFormDTO productToCreate){
 		ProductResponseDTO createdProductResponseDTO = this.productService.createProduct(productToCreate);
 		return new ResponseEntity<>(createdProductResponseDTO, HttpStatus.CREATED);
 	}
 	
 	@PatchMapping("/{productId}")
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
-	public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductFormDTO productToUpdate) throws Exception {
+	public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductFormDTO productToUpdate){
 		/**
 		 * The path variable productId is not used but it's required in the API Contract, the id is retrieved from the DTO 
 		 */
@@ -62,7 +62,7 @@ public class ProductRestController {
 	
 	@DeleteMapping("/{productId}")
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
-	public ResponseEntity<ProductResponseDTO> deleteProduct(@PathVariable Long productId) throws Exception {
+	public ResponseEntity<ProductResponseDTO> deleteProduct(@PathVariable Long productId){
 		ProductResponseDTO deletedProductResponseDTO = this.productService.deleteProduct(productId);
 		return new ResponseEntity<>(deletedProductResponseDTO, HttpStatus.OK);
 	}
