@@ -52,4 +52,9 @@ public class UserService {
         }
         return false;
     }
+    
+    public User existsByEmail(String email) {
+    	return this.userRepository.findByEmail(email)
+    			.orElseThrow(() -> new RuntimeException("can't find user"));
+    }
 }

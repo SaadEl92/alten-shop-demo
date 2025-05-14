@@ -10,6 +10,7 @@ import io.saad.altenshop.demo.dto.ProductFormDTO;
 import io.saad.altenshop.demo.dto.ProductResponseDTO;
 import io.saad.altenshop.demo.dto.mapper.ProductMapper;
 import io.saad.altenshop.demo.entity.Product;
+import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
 import io.saad.altenshop.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +33,8 @@ public class ProductServiceImpl implements IProductService {
 		return this.productRepository
 				.findById(productId)
 				.map(this.productMapper::entityToProductDTO)
-				.orElseThrow(() -> new RuntimeException("product not found"));
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productId));
+		
 	}
 
 	@Override
@@ -49,9 +51,7 @@ public class ProductServiceImpl implements IProductService {
 	public ProductResponseDTO updateProduct(ProductFormDTO productFormDTO){
 		
 		Product existingProduct = this.productRepository.findById(productFormDTO.id())
-									.orElseThrow(() -> 
-										new RuntimeException("Problem during Product Update: product does not exist")
-									);
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productFormDTO.id()));
 		
 		this.productMapper.productFormDtoToEntity(productFormDTO, existingProduct);
 		
@@ -63,7 +63,7 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public ProductResponseDTO deleteProduct(Long productId){
 		Product productToDelete = this.productRepository.findById(productId)
-				.orElseThrow(() -> new RuntimeException("Problem during Product Delete: product does not exist"));
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productId));
 		
 		ProductResponseDTO productResponseDTO = this.productMapper.entityToProductResponseDto(productToDelete);
 		this.productRepository.delete(productToDelete);

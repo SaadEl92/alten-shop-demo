@@ -4,12 +4,12 @@ public class ResourceNotFoundException extends RuntimeException{
 	
     private static final long serialVersionUID = 1L;
 
-	public ResourceNotFoundException(String message) {
-        super(message);
+	public ResourceNotFoundException() {
+        super();
     }
     
-    public ResourceNotFoundException(String resourceName, String fieldName, Object fieldValue) {
-        super(String.format("%s not found with %s: '%s'", resourceName, fieldName, fieldValue));
+    public ResourceNotFoundException(String resourceName, Long resourceId) {
+        super(resourceName + " with id: [ " + resourceId + " ] cannot be found");
     }
     
 }

@@ -7,9 +7,9 @@ import io.saad.altenshop.demo.dto.WishlistItemDTO;
 
 
 public interface IWishlistService {
-	List<WishlistItemDTO> getAllWishlistItemsByUserEmail(Principal principal) throws Exception;
+	List<WishlistItemDTO> getAllWishlistItemsByUserEmail(Principal principal);
 	
-	WishlistItemDTO addToWishlist(Principal principal, WishlistItemDTO wishlistItemDTO)  throws Exception;
+	WishlistItemDTO addToWishlist(Principal principal, WishlistItemDTO wishlistItemDTO);
 	
-	WishlistItemDTO removeFromWishlist(Principal principal, Long wishlistItemId)  throws Exception;
+	WishlistItemDTO removeFromWishlist(Principal principal, Long wishlistItemId);
 }
