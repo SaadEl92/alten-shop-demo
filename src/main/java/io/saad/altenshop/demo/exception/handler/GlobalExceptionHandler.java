@@ -34,6 +34,7 @@ public class GlobalExceptionHandler {
 	 * add exception handling for 
 	 * 	- token expiration
 	 *  - User not found
+	 *  - SignatureException
 	 *  - ...
 	 */
 }

@@ -53,8 +53,8 @@ public class WishlistServiceImpl implements IWishlistService {
 		Wishlist wishlistOfUser = this.wishlistRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Wishlist.class.getSimpleName(), authenticatedUser.getUserId()));
 		
-		Product choosenProduct = this.productRepository.findById(wishlistItemDTO.getProductId())
-				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName(), wishlistItemDTO.getProductId()));
+		Product choosenProduct = this.productRepository.findById(wishlistItemDTO.productId())
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName(), wishlistItemDTO.productId()));
 		
 		WishlistItem wishlistItemToAdd = this.wishlistItemMapper.wishlistItemDtoToEntity(wishlistItemDTO);
 		
