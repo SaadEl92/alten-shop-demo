@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
+import io.saad.altenshop.demo.exception.model.UserNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,11 +31,11 @@ public class GlobalExceptionHandler {
 		return exception.getMessage();
 	}
 	
-	/**
-	 * add exception handling for 
-	 * 	- token expiration
-	 *  - User not found
-	 *  - SignatureException
-	 *  - ...
-	 */
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ExceptionHandler(UserNotFoundException.class)
+	public String userNotFoundException(UserNotFoundException exception) {
+		return exception.getMessage();
+	}
+	
+
 }

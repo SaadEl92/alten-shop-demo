@@ -25,20 +25,20 @@ public class WishlistRestController {
 	private final IWishlistService wishlistService;
 	
 	@GetMapping
-	public ResponseEntity<List<WishlistItemDTO>> getAllWishlistItemsForUser(Principal principal) throws Exception {
+	public ResponseEntity<List<WishlistItemDTO>> getAllWishlistItemsForUser(Principal principal) {
 		List<WishlistItemDTO> wishlistItemsList = this.wishlistService.getAllWishlistItemsByUserEmail(principal);
 		return new ResponseEntity<>(wishlistItemsList, HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<WishlistItemDTO> addToWishlist(Principal principal, @RequestBody WishlistItemDTO wishlistItemDTO) throws Exception {
+	public ResponseEntity<WishlistItemDTO> addToWishlist(Principal principal, @RequestBody WishlistItemDTO wishlistItemDTO) {
 		WishlistItemDTO addedWishlistItem = this.wishlistService.addToWishlist(principal, wishlistItemDTO);
 		return new ResponseEntity<>(addedWishlistItem, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{wishlistItemId}")
-	public ResponseEntity<WishlistItemDTO> removeFromWishlist(Principal principal, @PathVariable Long wishlistItemId) throws Exception {
-		WishlistItemDTO addedWishlistItem = this.wishlistService.removeFromWishlist(principal, wishlistItemId);
+	public ResponseEntity<WishlistItemDTO> removeFromWishlist(Principal principal, @PathVariable Long wishlistItemId) {
+		WishlistItemDTO addedWishlistItem = this.wishlistService.removeFromWishlist(wishlistItemId);
 		return new ResponseEntity<>(addedWishlistItem, HttpStatus.OK);
 	}
 

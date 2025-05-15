@@ -11,7 +11,7 @@ public interface ICartService {
 	
 	CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO);
 	
-	CartItemDTO removeFromCart(Principal principal, Long cartItemId);
+	CartItemDTO removeFromCart(Long cartItemId);
 	
 
 }

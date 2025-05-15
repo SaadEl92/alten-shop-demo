@@ -11,8 +11,9 @@ import io.saad.altenshop.demo.dto.mapper.CartItemMapper;
 import io.saad.altenshop.demo.entity.Cart;
 import io.saad.altenshop.demo.entity.CartItem;
 import io.saad.altenshop.demo.entity.Product;
-import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.entity.AppUser;
 import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
+import io.saad.altenshop.demo.exception.model.UserNotFoundException;
 import io.saad.altenshop.demo.repository.CartItemRepository;
 import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.ProductRepository;
@@ -33,8 +34,8 @@ public class CartServiceImpl implements ICartService {
 
 	@Override
 	public List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal){
-		User authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(() -> new RuntimeException("can't find user"));
+		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
+				.orElseThrow(UserNotFoundException::new);
 		
 		Cart userCart = this.cartRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Cart.class.getSimpleName(), authenticatedUser.getUserId()));
@@ -48,8 +49,8 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO){
 		
-		User authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(() -> new RuntimeException("can't find user"));
+		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
+				.orElseThrow(UserNotFoundException::new);
 		
 		Cart cartOfUser = this.cartRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Cart.class.getSimpleName(), authenticatedUser.getUserId()));
@@ -73,7 +74,7 @@ public class CartServiceImpl implements ICartService {
 	}
 
 	@Override
-	public CartItemDTO removeFromCart(Principal principal, Long cartItemId){
+	public CartItemDTO removeFromCart(Long cartItemId){
 		CartItem cartItemToDelete = this.cartItemRepository.findById(cartItemId)
 				.orElseThrow(() -> new ResourceNotFoundException(CartItem.class.getSimpleName(), cartItemId));
 		

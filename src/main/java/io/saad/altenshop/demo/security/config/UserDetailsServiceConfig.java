@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.entity.AppUser;
 import io.saad.altenshop.demo.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ public class UserDetailsServiceConfig {
     @Bean
     UserDetailsService userDetailsService(UserRepository userRepository) {
         return email -> {
-            Optional<User> user = userRepository.findByEmail(email);
-            if (!user.isPresent()) {
+            Optional<AppUser> appUser = userRepository.findByEmail(email);
+            if (!appUser.isPresent()) {
                 throw new UsernameNotFoundException("User not found");
             }
-            return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), new ArrayList<>());
+            return new org.springframework.security.core.userdetails.User(appUser.get().getEmail(), appUser.get().getPassword(), new ArrayList<>());
         };
     }
 }

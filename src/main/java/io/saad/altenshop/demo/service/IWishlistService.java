@@ -11,5 +11,5 @@ public interface IWishlistService {
 	
 	WishlistItemDTO addToWishlist(Principal principal, WishlistItemDTO wishlistItemDTO);
 	
-	WishlistItemDTO removeFromWishlist(Principal principal, Long wishlistItemId);
+	WishlistItemDTO removeFromWishlist(Long wishlistItemId);
 }
