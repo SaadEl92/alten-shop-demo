@@ -2,6 +2,7 @@ package io.saad.altenshop.demo.dto.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 import io.saad.altenshop.demo.dto.ProductDTO;
@@ -20,5 +21,7 @@ public interface ProductMapper {
 	ProductResponseDTO entityToProductResponseDto(Product product);
 	
 	Product productFormDtoToEntity(ProductFormDTO productFormDTO);
+	
+	void productFormDtoToEntity(ProductFormDTO productFormDTO, @MappingTarget Product product);
 	
 }

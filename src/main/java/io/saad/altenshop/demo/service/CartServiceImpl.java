@@ -2,7 +2,6 @@ package io.saad.altenshop.demo.service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +11,9 @@ import io.saad.altenshop.demo.dto.mapper.CartItemMapper;
 import io.saad.altenshop.demo.entity.Cart;
 import io.saad.altenshop.demo.entity.CartItem;
 import io.saad.altenshop.demo.entity.Product;
-import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.entity.AppUser;
+import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
+import io.saad.altenshop.demo.exception.model.UserNotFoundException;
 import io.saad.altenshop.demo.repository.CartItemRepository;
 import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.ProductRepository;
@@ -32,50 +33,54 @@ public class CartServiceImpl implements ICartService {
 	private final CartItemMapper cartItemMapper;
 
 	@Override
-	public List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal) throws Exception {
-		User authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(() -> new Exception("can't find user"));
+	public List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal){
+		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
+				.orElseThrow(UserNotFoundException::new);
 		
 		Cart userCart = this.cartRepository.findById(authenticatedUser.getUserId())
-				.orElseThrow(() -> new Exception("can't find cart"));
+				.orElseThrow(() -> new ResourceNotFoundException(Cart.class.getSimpleName(), authenticatedUser.getUserId()));
 		
-		return userCart.getCartItems().stream().map(this.cartItemMapper::entityToCartItemDTO).toList();
+		return userCart.getCartItems()
+				.stream()
+				.map(this.cartItemMapper::entityToCartItemDTO)
+				.toList();
 	}
 
 	@Override
-	public CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO) throws Exception {
+	public CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO){
 		
-		User authenticatedUser = this.userRepository.findByEmail(principal.getName())
-									.orElseThrow(() -> new Exception("can't find user"));
+		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
+				.orElseThrow(UserNotFoundException::new);
 		
 		Cart cartOfUser = this.cartRepository.findById(authenticatedUser.getUserId())
-									.orElseThrow(() -> new Exception("can't find cart"));
+				.orElseThrow(() -> new ResourceNotFoundException(Cart.class.getSimpleName(), authenticatedUser.getUserId()));
 									
 		Product choosenProduct = this.productRepository.findById(cartItemDTO.productId())
-									.orElseThrow(() -> new Exception("can't find product"));
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName(), cartItemDTO.productId()));
 		
-		CartItem cartItemToAdd = CartItem.builder()
-									.product(choosenProduct)
-									.cart(cartOfUser)
-									.quantity(cartItemDTO.quantity())
-									.build();
+		CartItem cartItemToAdd = this.cartItemMapper.cartItemDtoToEntity(cartItemDTO);
 		
+		/**
+		 * Keep the parent-side of the bidirectional relationships in sync
+		 * Cart <-> CartItem
+		 * Product <-> CartItem
+		 */
 		cartOfUser.addCartItem(cartItemToAdd);
 		choosenProduct.addCartItem(cartItemToAdd);
 								
+		CartItem savedCartItem = this.cartItemRepository.save(cartItemToAdd);
 		
-		return Optional.of(this.cartItemRepository.save(cartItemToAdd))
-				.map(this.cartItemMapper::entityToCartItemDTO)
-				.orElseThrow(() -> new Exception("error creating the cartItem in database"));
+		return this.cartItemMapper.entityToCartItemDTO(savedCartItem);
 	}
 
 	@Override
-	public CartItemDTO removeFromCart(Principal principal, Long cartItemId) throws Exception {
-		CartItemDTO cartItemToDeleteDTO = this.cartItemRepository.findById(cartItemId)
-				.map(this.cartItemMapper::entityToCartItemDTO)
-				.orElseThrow(() -> new Exception("can't find cartItem"));
+	public CartItemDTO removeFromCart(Long cartItemId){
+		CartItem cartItemToDelete = this.cartItemRepository.findById(cartItemId)
+				.orElseThrow(() -> new ResourceNotFoundException(CartItem.class.getSimpleName(), cartItemId));
 		
-		this.cartItemRepository.deleteById(cartItemToDeleteDTO.id());
+		CartItemDTO cartItemToDeleteDTO = this.cartItemMapper.entityToCartItemDTO(cartItemToDelete);
+		
+		this.cartItemRepository.delete(cartItemToDelete);
 		
 		return cartItemToDeleteDTO;
 	}

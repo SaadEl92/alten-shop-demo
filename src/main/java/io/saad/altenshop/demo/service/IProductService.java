@@ -9,13 +9,13 @@ import io.saad.altenshop.demo.dto.ProductResponseDTO;
 
 public interface IProductService {
 
-	Page<ProductDTO> getAllProducts(Pageable pageable) throws Exception;
+	Page<ProductDTO> getAllProducts(Pageable pageable);
 	
-	ProductDTO getProductById(Long productId) throws Exception;
+	ProductDTO getProductById(Long productId);
 	
-	ProductResponseDTO createProduct(ProductFormDTO productFormDTO) throws Exception;
+	ProductResponseDTO createProduct(ProductFormDTO productFormDTO);
 
-	ProductResponseDTO updateProduct(ProductFormDTO productFormDTO) throws Exception;
+	ProductResponseDTO updateProduct(ProductFormDTO productFormDTO);
 
-	ProductResponseDTO deleteProduct(Long productId) throws Exception;
+	ProductResponseDTO deleteProduct(Long productId);
 }

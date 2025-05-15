@@ -7,11 +7,11 @@ import io.saad.altenshop.demo.dto.CartItemDTO;
 
 public interface ICartService {
 	
-	List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal) throws Exception;
+	List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal);
 	
-	CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO)  throws Exception;
+	CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO);
 	
-	CartItemDTO removeFromCart(Principal principal, Long cartItemId)  throws Exception;
+	CartItemDTO removeFromCart(Long cartItemId);
 	
 
 }

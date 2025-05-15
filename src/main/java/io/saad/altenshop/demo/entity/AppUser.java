@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name = "USER_DETAILS")
-public class User implements Serializable{
+public class AppUser implements Serializable{
 	
     private static final long serialVersionUID = 1L;
 	@Id
@@ -40,7 +40,7 @@ public class User implements Serializable{
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
 		if (obj == null || getClass() != obj.getClass()) return false;
-		User other = (User) obj;
+		AppUser other = (AppUser) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstname, other.firstname)
 				&& Objects.equals(password, other.password) && Objects.equals(userId, other.userId)
 				&& Objects.equals(username, other.username);

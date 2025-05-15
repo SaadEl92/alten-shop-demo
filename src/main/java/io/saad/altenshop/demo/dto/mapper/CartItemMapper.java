@@ -9,12 +9,15 @@ import io.saad.altenshop.demo.dto.CartItemDTO;
 import io.saad.altenshop.demo.entity.CartItem;
 
 @Mapper(
-		componentModel = MappingConstants.ComponentModel.SPRING,
-		unmappedTargetPolicy = ReportingPolicy.IGNORE
+		componentModel = MappingConstants.ComponentModel.SPRING
+		,unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface CartItemMapper {
 
 	@Mapping(target = "productId", source = "product.id")
 	CartItemDTO entityToCartItemDTO(CartItem cartItem);
+	
+	@Mapping(target = "product.id", source = "productId")
+	CartItem cartItemDtoToEntity(CartItemDTO cartItemDTO);
 	
 }

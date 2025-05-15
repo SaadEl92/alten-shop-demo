@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import io.saad.altenshop.demo.dto.UserDTO;
 import io.saad.altenshop.demo.entity.Cart;
-import io.saad.altenshop.demo.entity.User;
+import io.saad.altenshop.demo.entity.AppUser;
 import io.saad.altenshop.demo.entity.Wishlist;
 import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.UserRepository;
@@ -29,15 +29,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<UserDTO> saveUser(UserDTO dto) {
-        User entity = new User();
+        AppUser entity = new AppUser();
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         BeanUtils.copyProperties(dto, entity);
-        User savedUser = userRepository.save(entity);
+        AppUser savedUser = userRepository.save(entity);
         
-    	Cart userCart = Cart.builder().user(savedUser).build();
+    	Cart userCart = Cart.builder().appUser(savedUser).build();
     	this.cartRepository.save(userCart);
     	
-    	Wishlist userWishlist = Wishlist.builder().user(savedUser).build();
+    	Wishlist userWishlist = Wishlist.builder().appUser(savedUser).build();
     	this.wishlistRepository.save(userWishlist);
     	
         dto.setPassword("******");
@@ -46,10 +46,15 @@ public class UserService {
     }
 
     public boolean findByEmail(String email) {
-        Optional<User> byEmail = userRepository.findByEmail(email);
+        Optional<AppUser> byEmail = userRepository.findByEmail(email);
         if (byEmail.isPresent()) {
             return true;
         }
         return false;
+    }
+    
+    public AppUser existsByEmail(String email) {
+    	return this.userRepository.findByEmail(email)
+    			.orElseThrow(() -> new RuntimeException("can't find user"));
     }
 }

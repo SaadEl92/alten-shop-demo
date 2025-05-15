@@ -34,7 +34,7 @@ public class Wishlist implements Serializable{
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    private User user;
+    private AppUser appUser;
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "wishlist", orphanRemoval = true)
 	private List<WishlistItem> wishlistItems;
@@ -44,7 +44,7 @@ public class Wishlist implements Serializable{
 		if (this == obj) return true;
 		if (obj == null || getClass() != obj.getClass()) return false;
 		Wishlist other = (Wishlist) obj;
-		return Objects.equals(id, other.id) && Objects.equals(user, other.user)
+		return Objects.equals(id, other.id) && Objects.equals(appUser, other.appUser)
 				&& Objects.equals(wishlistItems, other.wishlistItems);
 	}
 

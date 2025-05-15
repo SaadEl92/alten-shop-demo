@@ -13,5 +13,7 @@ import io.saad.altenshop.demo.entity.WishlistItem;
 )
 public interface WishlistItemMapper {
 
-	WishlistItemDTO entityToWishlistItemDTO(WishlistItem wishlistItem);
+	WishlistItemDTO entityToWishlistItemDto(WishlistItem wishlistItem);
+	
+	WishlistItem wishlistItemDtoToEntity(WishlistItemDTO wishlistItemDTO);
 }
