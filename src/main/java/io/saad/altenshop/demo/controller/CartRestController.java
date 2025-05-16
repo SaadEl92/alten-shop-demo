@@ -25,20 +25,20 @@ public class CartRestController {
 	private final ICartService cartService;
 	
 	@GetMapping
-	public ResponseEntity<List<CartItemDTO>> getAllCartItemsForUser(Principal principal) throws Exception {
+	public ResponseEntity<List<CartItemDTO>> getAllCartItemsForUser(Principal principal) {
 		List<CartItemDTO> cartItemsList = this.cartService.getAllCartItemsByUserEmail(principal);
 		return new ResponseEntity<>(cartItemsList, HttpStatus.OK);
 	}
 	
 	@PostMapping
-	public ResponseEntity<CartItemDTO> addToCart(Principal principal, @RequestBody CartItemDTO cartItemDTO) throws Exception {
+	public ResponseEntity<CartItemDTO> addToCart(Principal principal, @RequestBody CartItemDTO cartItemDTO) {
 		CartItemDTO addedCartItem = this.cartService.addToCart(principal, cartItemDTO);
 		return new ResponseEntity<>(addedCartItem, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{cartItemId}")
-	public ResponseEntity<CartItemDTO> removeFromCart(Principal principal, @PathVariable Long cartItemId) throws Exception {
-		CartItemDTO addedCartItem = this.cartService.removeFromCart(principal, cartItemId);
+	public ResponseEntity<CartItemDTO> removeFromCart(Principal principal, @PathVariable Long cartItemId) {
+		CartItemDTO addedCartItem = this.cartService.removeFromCart(cartItemId);
 		return new ResponseEntity<>(addedCartItem, HttpStatus.OK);
 	}
 

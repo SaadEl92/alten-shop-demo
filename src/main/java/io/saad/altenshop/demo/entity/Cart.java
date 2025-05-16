@@ -33,7 +33,7 @@ public class Cart implements Serializable{
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    private User user;
+    private AppUser appUser;
     
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cart", orphanRemoval = true)
 	private List<CartItem> cartItems;
@@ -65,7 +65,7 @@ public class Cart implements Serializable{
 		if (obj == null || getClass() != obj.getClass()) return false;
 		Cart other = (Cart) obj;
 		return Objects.equals(cartItems, other.cartItems) && Objects.equals(id, other.id)
-				&& Objects.equals(user, other.user);
+				&& Objects.equals(appUser, other.appUser);
 	}
 
 	@Override

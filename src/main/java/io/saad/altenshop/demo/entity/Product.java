@@ -2,6 +2,7 @@ package io.saad.altenshop.demo.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -68,10 +69,10 @@ public class Product implements Serializable{
     private Integer rating;
     
     @CreatedDate
-    private Long createdAt;
+    private Instant createdAt;
     
     @LastModifiedDate
-    private Long updatedAt;
+    private Instant updatedAt;
     
 	@OneToMany(cascade = CascadeType.ALL, 
 			mappedBy = "product", orphanRemoval = true)

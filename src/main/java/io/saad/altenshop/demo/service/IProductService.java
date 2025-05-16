@@ -4,18 +4,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import io.saad.altenshop.demo.dto.ProductDTO;
-import io.saad.altenshop.demo.dto.ProductFeedbackDTO;
 import io.saad.altenshop.demo.dto.ProductFormDTO;
+import io.saad.altenshop.demo.dto.ProductResponseDTO;
 
 public interface IProductService {
 
-	Page<ProductDTO> getAllProducts(Pageable pageable) throws Exception;
+	Page<ProductDTO> getAllProducts(Pageable pageable);
 	
-	ProductDTO getProductById(Long productId) throws Exception;
+	ProductDTO getProductById(Long productId);
 	
-	ProductFeedbackDTO createProduct(ProductFormDTO productFormDTO) throws Exception;
+	ProductResponseDTO createProduct(ProductFormDTO productFormDTO);
 
-	ProductFeedbackDTO updateProduct(ProductFormDTO productFormDTO) throws Exception;
+	ProductResponseDTO updateProduct(ProductFormDTO productFormDTO);
 
-	ProductFeedbackDTO deleteProduct(Long productId) throws Exception;
+	ProductResponseDTO deleteProduct(Long productId);
 }
