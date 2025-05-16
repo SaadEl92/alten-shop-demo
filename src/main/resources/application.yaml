@@ -12,8 +12,7 @@ spring:
   docker:
     compose:
       lifecycle-management: start-and-stop      
-jwt:
-  secret: 
-    zL1HB3Pch05Avfynovxrf/kpF9O2m4NCWKJUjEp27s9J2jEG3ifiKCGylaZ8fDeoONSTJP/wAzKawB8F9rOMNg==
-  token:
-    lifespan: 3600000
+
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem

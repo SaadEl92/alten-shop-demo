@@ -1,21 +1,19 @@
-package io.saad.altenshop.demo.service;
+package io.saad.altenshop.demo.security.service;
 
 import lombok.AllArgsConstructor;
-
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import io.saad.altenshop.demo.dto.UserDTO;
 import io.saad.altenshop.demo.entity.Cart;
 import io.saad.altenshop.demo.entity.AppUser;
 import io.saad.altenshop.demo.entity.Wishlist;
 import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.UserRepository;
 import io.saad.altenshop.demo.repository.WishlistRepository;
+import io.saad.altenshop.demo.security.dto.UserDTO;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -45,16 +43,7 @@ public class UserService {
         return ResponseEntity.ok(dto);
     }
 
-    public boolean findByEmail(String email) {
-        Optional<AppUser> byEmail = userRepository.findByEmail(email);
-        if (byEmail.isPresent()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public AppUser existsByEmail(String email) {
-    	return this.userRepository.findByEmail(email)
-    			.orElseThrow(() -> new RuntimeException("can't find user"));
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }

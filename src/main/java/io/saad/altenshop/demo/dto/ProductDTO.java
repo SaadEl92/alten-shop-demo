@@ -1,6 +1,7 @@
 package io.saad.altenshop.demo.dto;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 import io.saad.altenshop.demo.entity.InventoryStatus;
 import jakarta.persistence.EnumType;
@@ -21,6 +22,6 @@ public record ProductDTO (
     @Enumerated(EnumType.STRING)
     InventoryStatus inventoryStatus,
     Integer rating,
-    Long createdAt,
-    Long updatedAt
+    Instant createdAt,
+    Instant updatedAt
 ){}
