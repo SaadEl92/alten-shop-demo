@@ -2,8 +2,6 @@ package io.saad.altenshop.demo.service;
 
 import lombok.AllArgsConstructor;
 
-import java.util.Optional;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,15 +44,6 @@ public class UserService {
     }
 
     public boolean findByEmail(String email) {
-        Optional<AppUser> byEmail = userRepository.findByEmail(email);
-        if (byEmail.isPresent()) {
-            return true;
-        }
-        return false;
-    }
-    
-    public AppUser existsByEmail(String email) {
-    	return this.userRepository.findByEmail(email)
-    			.orElseThrow(() -> new RuntimeException("can't find user"));
+        return userRepository.existsByEmail(email);
     }
 }
