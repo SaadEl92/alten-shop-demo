@@ -25,7 +25,7 @@ public class WishlistRestController {
 	
 	@GetMapping
 	public ResponseEntity<List<WishlistItemDTO>> getAllWishlistItemsForUser() {
-		List<WishlistItemDTO> wishlistItemsList = this.wishlistService.getAllWishlistItemsByUser();
+		List<WishlistItemDTO> wishlistItemsList = this.wishlistService.getAllWishlistItems();
 		return new ResponseEntity<>(wishlistItemsList, HttpStatus.OK);
 	}
 	

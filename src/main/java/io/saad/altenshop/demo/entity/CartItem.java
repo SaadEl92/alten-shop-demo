@@ -34,18 +34,18 @@ public class CartItem implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productId")
 	private Product product;
-    
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "cartId")
-	private Cart cart;
+	@JoinColumn(name = "appUserId")
+	private AppUser appUser;
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;
 		if (obj == null || getClass() != obj.getClass()) return false;
 		CartItem other = (CartItem) obj;
-		return Objects.equals(cart, other.cart) && Objects.equals(id, other.id)
-				&& Objects.equals(product, other.product) && Objects.equals(quantity, other.quantity);
+		return Objects.equals(id, other.id) && Objects.equals(product, other.product)
+				&& Objects.equals(quantity, other.quantity);
 	}
 
 	@Override

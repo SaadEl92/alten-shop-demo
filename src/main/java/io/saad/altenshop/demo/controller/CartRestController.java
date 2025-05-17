@@ -26,13 +26,13 @@ public class CartRestController {
 	
 	@GetMapping
 	public ResponseEntity<List<CartItemDTO>> getAllCartItemsForUser(Principal principal) {
-		List<CartItemDTO> cartItemsList = this.cartService.getAllCartItemsByUserEmail(principal);
+		List<CartItemDTO> cartItemsList = this.cartService.getAllCartItems();
 		return new ResponseEntity<>(cartItemsList, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<CartItemDTO> addToCart(Principal principal, @RequestBody CartItemDTO cartItemDTO) {
-		CartItemDTO addedCartItem = this.cartService.addToCart(principal, cartItemDTO);
+		CartItemDTO addedCartItem = this.cartService.addToCart(cartItemDTO);
 		return new ResponseEntity<>(addedCartItem, HttpStatus.CREATED);
 	}
 	

@@ -31,10 +31,10 @@ public class WishlistItem implements Serializable{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "productId")
 	private Product product;
-    
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "wishlistId")
-	private Wishlist wishlist;
+	@JoinColumn(name = "appUserId")
+	private AppUser appUser;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -42,7 +42,7 @@ public class WishlistItem implements Serializable{
 		if (obj == null || getClass() != obj.getClass()) return false;
 		WishlistItem other = (WishlistItem) obj;
 		return Objects.equals(id, other.id) && Objects.equals(product, other.product)
-				&& Objects.equals(wishlist, other.wishlist);
+				&& Objects.equals(appUser, other.appUser);
 	}
 
 	@Override

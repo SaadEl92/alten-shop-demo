@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.exception.model;
+package io.saad.altenshop.demo.security.exception.model;
 
 public class AppUserNotFoundException extends RuntimeException{
 	

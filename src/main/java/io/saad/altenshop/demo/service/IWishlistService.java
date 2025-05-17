@@ -6,9 +6,7 @@ import io.saad.altenshop.demo.dto.WishlistItemDTO;
 
 
 public interface IWishlistService {
-	List<WishlistItemDTO> getAllWishlistItemsByUser();
-	
-	WishlistItemDTO addToWishlist2(WishlistItemDTO wishlistItemDTO);
+	List<WishlistItemDTO> getAllWishlistItems();
 
 	WishlistItemDTO addToWishlist(WishlistItemDTO wishlistItemDTO);
 	

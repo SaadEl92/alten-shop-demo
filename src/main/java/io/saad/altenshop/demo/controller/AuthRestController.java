@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.security;
+package io.saad.altenshop.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.saad.altenshop.demo.exception.model.UserAlreadyExistException;
 import io.saad.altenshop.demo.security.dto.AuthenticationRequest;
 import io.saad.altenshop.demo.security.dto.AuthenticationResponse;
 import io.saad.altenshop.demo.security.dto.UserDTO;
+import io.saad.altenshop.demo.security.exception.model.UserAlreadyExistException;
 import io.saad.altenshop.demo.security.service.TokenService;
 import io.saad.altenshop.demo.security.service.UserService;
 import jakarta.validation.Valid;
