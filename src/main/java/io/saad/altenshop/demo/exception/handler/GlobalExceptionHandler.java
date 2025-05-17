@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
-import io.saad.altenshop.demo.exception.model.UserNotFoundException;
+import io.saad.altenshop.demo.exception.model.AppUserNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,9 +31,9 @@ public class GlobalExceptionHandler {
 		return exception.getMessage();
 	}
 	
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	@ExceptionHandler(UserNotFoundException.class)
-	public String userNotFoundException(UserNotFoundException exception) {
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(AppUserNotFoundException.class)
+	public String appUserNotFoundException(AppUserNotFoundException exception) {
 		return exception.getMessage();
 	}
 	

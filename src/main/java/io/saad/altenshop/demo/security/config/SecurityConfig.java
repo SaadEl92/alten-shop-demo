@@ -1,5 +1,7 @@
 package io.saad.altenshop.demo.security.config;
 
+import java.util.ArrayList;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,10 +10,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -23,6 +32,8 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import io.saad.altenshop.demo.entity.AppUser;
+import io.saad.altenshop.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -52,8 +63,17 @@ public class SecurityConfig {
                 	session
                 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .httpBasic(Customizer.withDefaults())
                 .build();
+    }
+    
+    @Bean
+    UserDetailsService userDetailsService(UserRepository userRepository) {
+        return email -> {
+            AppUser appUser = userRepository.findByEmail(email)
+            		.orElseThrow(() ->  new UsernameNotFoundException("Cannot find the user"));
+            
+            return new User(appUser.getEmail(), appUser.getPassword(), new ArrayList<>());
+        };
     }
     
     @Bean
@@ -63,7 +83,11 @@ public class SecurityConfig {
     
     @Bean
     JwtDecoder jwtDecoder() {
-    	return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
+    	NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
+    	OAuth2TokenValidator<Jwt> withTimestamp = JwtValidators.createDefault();
+    	OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withTimestamp);
+        jwtDecoder.setJwtValidator(validator);
+    	return jwtDecoder;
     }
     
     @Bean

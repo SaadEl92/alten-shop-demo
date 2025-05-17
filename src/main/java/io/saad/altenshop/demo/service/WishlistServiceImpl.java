@@ -12,7 +12,7 @@ import io.saad.altenshop.demo.entity.AppUser;
 import io.saad.altenshop.demo.entity.Wishlist;
 import io.saad.altenshop.demo.entity.WishlistItem;
 import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
-import io.saad.altenshop.demo.exception.model.UserNotFoundException;
+import io.saad.altenshop.demo.exception.model.AppUserNotFoundException;
 import io.saad.altenshop.demo.repository.ProductRepository;
 import io.saad.altenshop.demo.repository.UserRepository;
 import io.saad.altenshop.demo.repository.WishlistItemRepository;
@@ -34,7 +34,7 @@ public class WishlistServiceImpl implements IWishlistService {
 	@Override
 	public List<WishlistItemDTO> getAllWishlistItemsByUserEmail(Principal principal){
 		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(UserNotFoundException::new);
+				.orElseThrow(AppUserNotFoundException::new);
 		
 		Wishlist userWishlist = this.wishlistRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Wishlist.class.getSimpleName(), authenticatedUser.getUserId()));
@@ -49,7 +49,7 @@ public class WishlistServiceImpl implements IWishlistService {
 	public WishlistItemDTO addToWishlist(Principal principal, WishlistItemDTO wishlistItemDTO){
 		
 		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(UserNotFoundException::new);
+				.orElseThrow(AppUserNotFoundException::new);
 		
 		Wishlist wishlistOfUser = this.wishlistRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Wishlist.class.getSimpleName(), authenticatedUser.getUserId()));

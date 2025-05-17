@@ -19,11 +19,19 @@ import io.saad.altenshop.demo.security.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Using authenticationManager here is a work around to be able to handle BadCredentialsException & AccessDeniedException using RestControllerAdvice
+ * 
+ * A better way is to use ExceptionTranslationFilter
+ * 
+ * @see <a href="https://docs.spring.io/spring-security/reference/servlet/architecture.html#servlet-exceptiontranslationfilter"</a>
+ */
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v0/auth")
 public class AuthRestController {
-	
+
 	private final AuthenticationManager authenticationManager;
 
 	private final TokenService tokenService;

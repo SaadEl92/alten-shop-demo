@@ -13,7 +13,7 @@ import io.saad.altenshop.demo.entity.CartItem;
 import io.saad.altenshop.demo.entity.Product;
 import io.saad.altenshop.demo.entity.AppUser;
 import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
-import io.saad.altenshop.demo.exception.model.UserNotFoundException;
+import io.saad.altenshop.demo.exception.model.AppUserNotFoundException;
 import io.saad.altenshop.demo.repository.CartItemRepository;
 import io.saad.altenshop.demo.repository.CartRepository;
 import io.saad.altenshop.demo.repository.ProductRepository;
@@ -35,7 +35,7 @@ public class CartServiceImpl implements ICartService {
 	@Override
 	public List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal){
 		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(UserNotFoundException::new);
+				.orElseThrow(AppUserNotFoundException::new);
 		
 		Cart userCart = this.cartRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Cart.class.getSimpleName(), authenticatedUser.getUserId()));
@@ -50,7 +50,7 @@ public class CartServiceImpl implements ICartService {
 	public CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO){
 		
 		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(UserNotFoundException::new);
+				.orElseThrow(AppUserNotFoundException::new);
 		
 		Cart cartOfUser = this.cartRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Cart.class.getSimpleName(), authenticatedUser.getUserId()));
