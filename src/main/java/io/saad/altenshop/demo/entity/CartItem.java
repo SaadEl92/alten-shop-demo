@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class CartItem implements Serializable{
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+	@Min(1)
     private Integer quantity;
     
 	@ManyToOne(fetch = FetchType.LAZY)

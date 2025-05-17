@@ -10,7 +10,7 @@ import io.saad.altenshop.demo.entity.CartItem;
 
 @Mapper(
 		componentModel = MappingConstants.ComponentModel.SPRING
-		,unmappedTargetPolicy = ReportingPolicy.IGNORE
+		,unmappedTargetPolicy = ReportingPolicy.WARN
 )
 public interface CartItemMapper {
 

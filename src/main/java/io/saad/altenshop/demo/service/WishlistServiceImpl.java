@@ -1,8 +1,9 @@
 package io.saad.altenshop.demo.service;
 
-import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import io.saad.altenshop.demo.dto.WishlistItemDTO;
@@ -13,10 +14,12 @@ import io.saad.altenshop.demo.entity.Wishlist;
 import io.saad.altenshop.demo.entity.WishlistItem;
 import io.saad.altenshop.demo.exception.model.ResourceNotFoundException;
 import io.saad.altenshop.demo.exception.model.AppUserNotFoundException;
+import io.saad.altenshop.demo.exception.model.ForbiddenResourceException;
 import io.saad.altenshop.demo.repository.ProductRepository;
 import io.saad.altenshop.demo.repository.UserRepository;
 import io.saad.altenshop.demo.repository.WishlistItemRepository;
 import io.saad.altenshop.demo.repository.WishlistRepository;
+import io.saad.altenshop.demo.security.IAuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -30,29 +33,41 @@ public class WishlistServiceImpl implements IWishlistService {
 	private final WishlistItemRepository wishlistItemRepository;
 	
 	private final WishlistItemMapper wishlistItemMapper;
-
-	@Override
-	public List<WishlistItemDTO> getAllWishlistItemsByUserEmail(Principal principal){
-		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
+	
+	private final IAuthenticationFacade authenticationFacade;
+	
+	private Wishlist findWishListByUserId() {
+		Authentication authentication = authenticationFacade.getAuthentication();
+		AppUser authenticatedUser = this.userRepository.findByEmail(authentication.getName())
 				.orElseThrow(AppUserNotFoundException::new);
 		
-		Wishlist userWishlist = this.wishlistRepository.findById(authenticatedUser.getUserId())
+		return this.wishlistRepository.findById(authenticatedUser.getUserId())
 				.orElseThrow(() -> new ResourceNotFoundException(Wishlist.class.getSimpleName(), authenticatedUser.getUserId()));
+	}
+	
+	private Wishlist findWishListByUserId2() {
+		Authentication authentication = authenticationFacade.getAuthentication();
+		AppUser authenticatedUser = this.userRepository.findByEmail(authentication.getName())
+				.orElseThrow(AppUserNotFoundException::new);
 		
-		return userWishlist.getWishlistItems()
+		return this.wishlistRepository.getReferenceById(authenticatedUser.getUserId());
+	}
+
+	@Override
+	public List<WishlistItemDTO> getAllWishlistItemsByUser(){
+		
+		Wishlist wishlistOfUser = this.findWishListByUserId();
+		
+		return wishlistOfUser.getWishlistItems()
 				.stream()
 				.map(this.wishlistItemMapper::entityToWishlistItemDto)
 				.toList();
 	}
 
 	@Override
-	public WishlistItemDTO addToWishlist(Principal principal, WishlistItemDTO wishlistItemDTO){
+	public WishlistItemDTO addToWishlist(WishlistItemDTO wishlistItemDTO){
 		
-		AppUser authenticatedUser = this.userRepository.findByEmail(principal.getName())
-				.orElseThrow(AppUserNotFoundException::new);
-		
-		Wishlist wishlistOfUser = this.wishlistRepository.findById(authenticatedUser.getUserId())
-				.orElseThrow(() -> new ResourceNotFoundException(Wishlist.class.getSimpleName(), authenticatedUser.getUserId()));
+		Wishlist wishlistOfUser = this.findWishListByUserId();
 		
 		Product choosenProduct = this.productRepository.findById(wishlistItemDTO.productId())
 				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName(), wishlistItemDTO.productId()));
@@ -71,11 +86,36 @@ public class WishlistServiceImpl implements IWishlistService {
 		
 		return this.wishlistItemMapper.entityToWishlistItemDto(savedWishlistItem);
 	}
+	
+	@Override
+	public WishlistItemDTO addToWishlist2(WishlistItemDTO wishlistItemDTO){
+		
+		return null;
+	}
 
 	@Override
 	public WishlistItemDTO removeFromWishlist(Long wishlistItemId){
+		
+		Wishlist wishlistOfUser = this.findWishListByUserId();
+		
+		wishlistOfUser.getWishlistItems().stream()
+			.filter(wishlistItem -> Objects.equals(wishlistItem.getId(), wishlistItemId))
+			.findFirst()
+			.orElseThrow(ForbiddenResourceException::new);
+		
 		WishlistItem wishlistItemToDelete = this.wishlistItemRepository.findById(wishlistItemId)
 				.orElseThrow(() -> new ResourceNotFoundException(WishlistItem.class.getSimpleName(), wishlistItemId));
+		
+		/**
+		 * Keep the parent-side of the bidirectional relationships in sync
+		 * Wishlist <-> WishlistItem
+		 * Product <-> WishlistItem
+		 */
+		Product choosenProduct = this.productRepository.findById(wishlistItemToDelete.getProduct().getId())
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName(), wishlistItemToDelete.getProduct().getId()));
+		
+		wishlistOfUser.removeWishlistItem(wishlistItemToDelete);
+		choosenProduct.removeWishlistItem(wishlistItemToDelete);
 		
 		WishlistItemDTO wishlistItemToDeleteDTO = this.wishlistItemMapper.entityToWishlistItemDto(wishlistItemToDelete);
 		
