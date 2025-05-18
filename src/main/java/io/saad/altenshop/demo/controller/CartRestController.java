@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.saad.altenshop.demo.dto.CartItemDTO;
 import io.saad.altenshop.demo.service.ICartService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "3. Cart")
 @RestController
 @RequestMapping("/api/v0/cart")
 @RequiredArgsConstructor

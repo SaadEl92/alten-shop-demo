@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://alten-shop-database:5432/alten-shop-db-local
+    username: altenshop
+    password: secret
+    driver-class-name: org.postgresql.Driver

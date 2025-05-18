@@ -16,6 +16,7 @@ import io.saad.altenshop.demo.security.dto.UserDTO;
 import io.saad.altenshop.demo.security.exception.model.UserAlreadyExistException;
 import io.saad.altenshop.demo.security.service.TokenService;
 import io.saad.altenshop.demo.security.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +28,7 @@ import lombok.RequiredArgsConstructor;
  * @see <a href="https://docs.spring.io/spring-security/reference/servlet/architecture.html#servlet-exceptiontranslationfilter"</a>
  */
 
+@Tag(name = "1. Registration & Authentication")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v0/auth")

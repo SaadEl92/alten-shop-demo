@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.saad.altenshop.demo.dto.WishlistItemDTO;
 import io.saad.altenshop.demo.service.IWishlistService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "4. Wishlist")
 @RestController
 @RequestMapping("/api/v0/wishlist")
 @RequiredArgsConstructor
