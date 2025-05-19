@@ -1,4 +1,4 @@
-package io.saad.altenshop.demo.security;
+package io.saad.altenshop.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,20 +10,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.saad.altenshop.demo.exception.model.UserAlreadyExistException;
 import io.saad.altenshop.demo.security.dto.AuthenticationRequest;
 import io.saad.altenshop.demo.security.dto.AuthenticationResponse;
 import io.saad.altenshop.demo.security.dto.UserDTO;
+import io.saad.altenshop.demo.security.exception.model.UserAlreadyExistException;
 import io.saad.altenshop.demo.security.service.TokenService;
 import io.saad.altenshop.demo.security.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Using authenticationManager here is a work around to be able to handle BadCredentialsException & AccessDeniedException using RestControllerAdvice
+ * 
+ * A better way is to use ExceptionTranslationFilter
+ * 
+ * @see <a href="https://docs.spring.io/spring-security/reference/servlet/architecture.html#servlet-exceptiontranslationfilter"</a>
+ */
+
+@Tag(name = "1. Registration & Authentication")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v0/auth")
 public class AuthRestController {
-	
+
 	private final AuthenticationManager authenticationManager;
 
 	private final TokenService tokenService;

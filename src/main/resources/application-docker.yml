@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://alten-shop-database:5432/alten-shop-db-docker
+    username: altenshop
+    password: secret
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate

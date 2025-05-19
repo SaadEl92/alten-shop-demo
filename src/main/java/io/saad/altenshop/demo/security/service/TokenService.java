@@ -28,6 +28,7 @@ public class TokenService {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
+                .notBefore(now.plusSeconds(1))
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();

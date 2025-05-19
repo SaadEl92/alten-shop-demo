@@ -8,7 +8,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
 
-public record ProductDTO (
+public record PoductReadDTO (
 	Long id,
     String code,
     String name,

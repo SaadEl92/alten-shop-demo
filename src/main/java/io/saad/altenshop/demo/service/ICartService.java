@@ -1,15 +1,14 @@
 package io.saad.altenshop.demo.service;
 
-import java.security.Principal;
 import java.util.List;
 
 import io.saad.altenshop.demo.dto.CartItemDTO;
 
 public interface ICartService {
 	
-	List<CartItemDTO> getAllCartItemsByUserEmail(Principal principal);
+	List<CartItemDTO> getAllCartItems();
 	
-	CartItemDTO addToCart(Principal principal, CartItemDTO cartItemDTO);
+	CartItemDTO addToCart(CartItemDTO cartItemDTO);
 	
 	CartItemDTO removeFromCart(Long cartItemId);
 	

@@ -1,19 +1,40 @@
 volumes:
-    postgres-alten-shop-vol:
+    database-vol:
+    maven-cache-vol:
 
 services:
-  postgres:
-    container_name: alten-shop-db-local-container
-    labels:
-      org.springframework.boot.service-connection: postgres
-    image: "postgres:16"
+
+  app:
+    container_name: alten-shop-app-container
+    image: alten-shop-app:latest
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+        - maven-cache-vol:/root/.m2
+    ports:
+    - "8099:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+        - alten-shop-database
+
+
+  alten-shop-database:
+    container_name: alten-shop-database-container
+    image: alten-shop-database:16
+    pull_policy: never
+    build:
+      context: .
+      dockerfile: Dockerfile.database
     environment:
       POSTGRES_USER: "altenshop"
       POSTGRES_PASSWORD: "secret"
-      POSTGRES_DB: "alten-shop-db-local"
+      POSTGRES_DB: "alten-shop-db-docker"
       PGDATA: "/data/postgres"
     volumes:
-       - postgres-alten-shop-vol:/data/postgres
+       - database-vol:/data/postgres
     ports:
-      - "5433:5432"
+      - "5455:5432"
     restart: unless-stopped

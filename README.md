@@ -1,74 +1,49 @@
-## Back-end
+# alten-shop-demo
 
-### Partie 1
+## Requirements
 
-Développer un back-end permettant la gestion de produits définis plus bas.
+- [Docker](https://docs.docker.com/get-docker/)
 
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-**/products**
+## Getting Started
 
-Le back-end doit gérer les API suivantes : :white_check_mark:
+### 1. Clone the repository
 
-Method | Path           | Description                    |
--------|----------------|--------------------------------|
-GET    | /products      | retrieve all products          |
-GET    | /products/{id} | retrieve one product by its ID |
-POST   | /products      | Create a new product           |
-PATCH  | /products      | update an existing product     |
-DELETE | /products/{id} | remove an product by its ID    |
-
-
-Un produit a les caractéristiques suivantes : 
-
-``` typescript
-class Product {
-  id: number;
-  code: string;
-  name: string;
-  description: string;
-  image: string;
-  category: string;
-  price: number;
-  quantity: number;
-  internalReference: string;
-  shellId: number;
-  inventoryStatus: "INSTOCK" | "LOWSTOCK" | "OUTOFSTOCK";
-  rating: number;
-  createdAt: number;
-  updatedAt: number;
-}
+```sh
+git clone git@github.com:SaadEl92/alten-shop-demo.git
+cd alten-shop-app
 ```
 
-Le back-end créé doit pouvoir gérer les produits dans une base de données SQL/NoSQL ou dans un fichier json. :white_check_mark:
+### 2. Launch the application
 
-### Partie 2
+```sh
+docker-compose up -d
+```
 
-- Imposer à l'utilisateur de se connecter pour accéder à l'API.
-  La connexion doit être gérée en utilisant un token JWT.  
-  Deux routes devront être créées :
-  * [POST] /account -> Permet de créer un nouveau compte pour un utilisateur avec les informations fournies par la requête.   
-    Payload attendu : 
-    ```
-    {
-      username: string,
-      firstname: string,
-      email: string,
-      password: string
-    }
-    ```
-  * [POST] /token -> Permet de se connecter à l'application.  
-    Payload attendu :  
-    ```
-    {
-      email: string,
-      password: string
-    }
-    ```
-    Une vérification devra être effectuée parmi tout les utilisateurs de l'application afin de connecter celui qui correspond aux infos fournies. Un token JWT sera renvoyé en retour de la reqûete. :white_check_mark:
-- Faire en sorte que seul l'utilisateur ayant le mail "admin@admin.com" puisse ajouter, modifier ou supprimer des produits. Une solution simple et générique devra être utilisée. Il n'est pas nécessaire de mettre en place une gestion des accès basée sur les rôles. :white_check_mark:
-- Ajouter la possibilité pour un utilisateur de gérer un panier d'achat pouvant contenir des produits. :white_check_mark:
-- Ajouter la possibilité pour un utilisateur de gérer une liste d'envie pouvant contenir des produits. :white_check_mark:
+This will:
 
-## Bonus
+Build the app and database images
 
-Vous pouvez ajouter des tests Postman ou Swagger pour valider votre API :white_check_mark:
+- Start PostgreSQL database on port 5455
+
+- Start the Spring Boot app on port 8099
+
+### 3. Open API documentation
+
+Once containers are up, visit:
+
+http://localhost:8099/swagger-ui/index.html
+
+You can explore all REST endpoints from the Swagger UI.
+
+Cleaning Up
+
+When you’re done, remove all containers, volumes, and images created by this Compose file:
+
+```sh
+# From the 'alten-shop app' folder:
+docker-compose down --rmi all --volumes
+```
+
+This command will stop and remove the app and database containers, drop the named volumes, and delete the locally built images (alten-shop-app:latest and alten-shop-database:16). Other images on your machine remain untouched.

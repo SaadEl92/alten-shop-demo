@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.saad.altenshop.demo.dto.CartItemDTO;
 import io.saad.altenshop.demo.service.ICartService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "3. Cart")
 @RestController
 @RequestMapping("/api/v0/cart")
 @RequiredArgsConstructor
@@ -26,13 +28,13 @@ public class CartRestController {
 	
 	@GetMapping
 	public ResponseEntity<List<CartItemDTO>> getAllCartItemsForUser(Principal principal) {
-		List<CartItemDTO> cartItemsList = this.cartService.getAllCartItemsByUserEmail(principal);
+		List<CartItemDTO> cartItemsList = this.cartService.getAllCartItems();
 		return new ResponseEntity<>(cartItemsList, HttpStatus.OK);
 	}
 	
 	@PostMapping
 	public ResponseEntity<CartItemDTO> addToCart(Principal principal, @RequestBody CartItemDTO cartItemDTO) {
-		CartItemDTO addedCartItem = this.cartService.addToCart(principal, cartItemDTO);
+		CartItemDTO addedCartItem = this.cartService.addToCart(cartItemDTO);
 		return new ResponseEntity<>(addedCartItem, HttpStatus.CREATED);
 	}
 	

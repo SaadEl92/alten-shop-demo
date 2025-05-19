@@ -5,8 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import io.saad.altenshop.demo.dto.ProductDTO;
-import io.saad.altenshop.demo.dto.ProductFormDTO;
+import io.saad.altenshop.demo.dto.PoductReadDTO;
+import io.saad.altenshop.demo.dto.ProductWriteDTO;
 import io.saad.altenshop.demo.dto.ProductResponseDTO;
 import io.saad.altenshop.demo.dto.mapper.ProductMapper;
 import io.saad.altenshop.demo.entity.Product;
@@ -23,13 +23,13 @@ public class ProductServiceImpl implements IProductService {
 	private final ProductMapper productMapper;
 	
 	@Override
-	public Page<ProductDTO> getAllProducts(Pageable pageable){
+	public Page<PoductReadDTO> getAllProducts(Pageable pageable){
 		return this.productRepository.findAll(pageable)
 				.map(this.productMapper::entityToProductDTO);
 	}
 
 	@Override
-	public ProductDTO getProductById(Long productId){
+	public PoductReadDTO getProductById(Long productId){
 		return this.productRepository
 				.findById(productId)
 				.map(this.productMapper::entityToProductDTO)
@@ -38,9 +38,9 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public ProductResponseDTO createProduct(ProductFormDTO productFormDTO){
+	public ProductResponseDTO createProduct(ProductWriteDTO productWriteDTO){
 		
-		Product newProduct = this.productMapper.productFormDtoToEntity(productFormDTO);
+		Product newProduct = this.productMapper.productWriteDtoToEntity(productWriteDTO);
 		
 		Product savedProduct = this.productRepository.save(newProduct);
 		
@@ -48,12 +48,12 @@ public class ProductServiceImpl implements IProductService {
 	}
 
 	@Override
-	public ProductResponseDTO updateProduct(ProductFormDTO productFormDTO){
+	public ProductResponseDTO updateProduct(ProductWriteDTO productWriteDTO){
 		
-		Product existingProduct = this.productRepository.findById(productFormDTO.id())
-				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productFormDTO.id()));
+		Product existingProduct = this.productRepository.findById(productWriteDTO.getId())
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productWriteDTO.getId()));
 		
-		this.productMapper.productFormDtoToEntity(productFormDTO, existingProduct);
+		this.productMapper.productWriteDtoToEntityUPDATE(productWriteDTO, existingProduct);
 		
 		Product updatedProduct = this.productRepository.save(existingProduct);
 		
