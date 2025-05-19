@@ -1,12 +1,3 @@
-## Back-end
-
-### Partie 1
-
-Développer un back-end permettant la gestion de produits définis plus bas.
-
-
-**/products**
-
 # alten-shop-demo
 
 ## Requirements
