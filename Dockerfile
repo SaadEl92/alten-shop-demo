@@ -3,4 +3,4 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
-ENTRYPOINT ["java","-jar","/app/target/alten-shop-demo-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=docker","-jar","/app/target/alten-shop-demo-0.0.1-SNAPSHOT.jar"]

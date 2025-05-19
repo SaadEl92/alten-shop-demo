@@ -37,13 +37,13 @@ http://localhost:8099/swagger-ui/index.html
 
 You can explore all REST endpoints from the Swagger UI.
 
-Cleaning Up
+### 4. Cleaning Up
 
-When you’re done, remove all containers, volumes, and images created by this Compose file:
+When you’re done, remove all containers, volumes, and images created by this compose file:
 
 ```sh
 # From the 'alten-shop app' folder:
 docker-compose down --rmi all --volumes
 ```
 
-This command will stop and remove the app and database containers, drop the named volumes, and delete the locally built images (alten-shop-app:latest and alten-shop-database:16). Other images on your machine remain untouched.
+This command will stop and remove the alten-shop-app and database containers, drop the named volumes, and delete the locally built images (alten-shop-app:latest and alten-shop-database:16). Other images on your machine remain untouched.
