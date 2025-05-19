@@ -4,7 +4,7 @@
 
 - [Docker](https://docs.docker.com/get-docker/)
 
-- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Docker Compose Plugin](https://docs.docker.com/compose/install/linux/)
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ cd alten-shop-app
 ### 2. Launch the application
 
 ```sh
-docker-compose up -d
+docker compose up -d
 ```
 
 This will:
