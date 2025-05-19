@@ -40,7 +40,7 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public ProductResponseDTO createProduct(ProductWriteDTO productWriteDTO){
 		
-		Product newProduct = this.productMapper.productFormDtoToEntity(productWriteDTO);
+		Product newProduct = this.productMapper.productWriteDtoToEntity(productWriteDTO);
 		
 		Product savedProduct = this.productRepository.save(newProduct);
 		
@@ -50,10 +50,10 @@ public class ProductServiceImpl implements IProductService {
 	@Override
 	public ProductResponseDTO updateProduct(ProductWriteDTO productWriteDTO){
 		
-		Product existingProduct = this.productRepository.findById(productWriteDTO.id())
-				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productWriteDTO.id()));
+		Product existingProduct = this.productRepository.findById(productWriteDTO.getId())
+				.orElseThrow(() -> new ResourceNotFoundException(Product.class.getSimpleName() ,productWriteDTO.getId()));
 		
-		this.productMapper.productFormDtoToEntity(productWriteDTO, existingProduct);
+		this.productMapper.productWriteDtoToEntityUPDATE(productWriteDTO, existingProduct);
 		
 		Product updatedProduct = this.productRepository.save(existingProduct);
 		

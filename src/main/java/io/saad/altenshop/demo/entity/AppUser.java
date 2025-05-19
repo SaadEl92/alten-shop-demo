@@ -20,13 +20,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "USER_DETAILS")
+@Table(name = "app_user")
 public class AppUser implements Serializable{
 	
     private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
     @Column(unique = true, length = 20)
     private String username;
     private String firstname;
@@ -42,7 +42,7 @@ public class AppUser implements Serializable{
 		if (obj == null || getClass() != obj.getClass()) return false;
 		AppUser other = (AppUser) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstname, other.firstname)
-				&& Objects.equals(password, other.password) && Objects.equals(userId, other.userId)
+				&& Objects.equals(password, other.password) && Objects.equals(id, other.id)
 				&& Objects.equals(username, other.username);
 	}
 

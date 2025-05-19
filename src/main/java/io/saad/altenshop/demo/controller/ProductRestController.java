@@ -56,8 +56,10 @@ public class ProductRestController {
 	@PreAuthorize("authentication.name == 'admin@admin.com'")
 	public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long productId, @RequestBody @Valid ProductWriteDTO productToUpdate){
 		/**
-		 * The path variable productId is not used but it's required in the API Contract, the id is retrieved from the DTO 
+		 * The path variable productId is required in the API Contract
+		 * This line is to make sure the path variable matches the id in the dto 
 		 */
+		productToUpdate.setId(productId);
 		ProductResponseDTO updatedProductResponseDTO = this.productService.updateProduct(productToUpdate);
 		return new ResponseEntity<>(updatedProductResponseDTO, HttpStatus.OK);
 	}

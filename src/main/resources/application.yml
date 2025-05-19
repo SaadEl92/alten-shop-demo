@@ -2,12 +2,7 @@ spring:
   application:
     name:
       alten-shop-demo
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
+    
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
@@ -15,3 +10,6 @@ rsa:
 springdoc:
   swagger-ui: 
     tagsSorter: alpha
+    
+flyway:
+   enabled: true
