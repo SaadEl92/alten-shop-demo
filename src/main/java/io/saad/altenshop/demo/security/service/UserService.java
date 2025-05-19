@@ -41,7 +41,7 @@ public class UserService {
     public Long authenticatedUserId() {
 		AppUser authenticatedUser = this.userRepository.findByEmail(this.authenticationFacade.getAuthentication().getName())
 				.orElseThrow(AppUserNotFoundException::new);
-		return authenticatedUser.getUserId();
+		return authenticatedUser.getId();
     }
     
     public AppUser authenticatedUserEntity() {
