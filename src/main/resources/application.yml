@@ -10,6 +10,3 @@ rsa:
 springdoc:
   swagger-ui: 
     tagsSorter: alpha
-    
-flyway:
-   enabled: true
